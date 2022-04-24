@@ -1,6 +1,5 @@
 import "aframe";
 
-import * as message from "./message.html";
 import initAframeComponents from "./AFrameComponents";
 import { useEffect } from "react";
 import { Environment, Laser, PosterMenu, Scene, UI } from "./lib";
@@ -13,11 +12,10 @@ const App = () => {
     }, []);
     return (
         <Scene background="color: #212" cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .raycastable">
-            <Environment preset="forest" />
+            <Environment preset="japan" />
 
             <AssetsRegistry>
                 <a-assets>
-                    <a-asset-item id="messageText" src={message}></a-asset-item>
                     <img
                         id="kazetachinu"
                         src="https://cdn.aframe.io/examples/ui/kazetachinu.jpg"
