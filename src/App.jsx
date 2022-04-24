@@ -6,6 +6,24 @@ import { Environment, Laser, PosterMenu, Scene, UI } from "./lib";
 import AssetsRegistry from "./lib/aframe/AssetsRegistry";
 import Poster from "./lib/Poster";
 
+const data = {
+    karigurashi: {
+        position: "-0.8 0 0",
+        poster: "https://cdn.aframe.io/examples/ui/karigurashiPoster.jpg",
+        image: "https://cdn.aframe.io/examples/ui/karigurashi.jpg",
+    },
+    kazetachinu: {
+        position: "0 0 0",
+        poster: "https://cdn.aframe.io/examples/ui/kazetachinuPoster.jpg",
+        image: "https://cdn.aframe.io/examples/ui/kazetachinu.jpg",
+    },
+    ponyo: {
+        position: "0.8 0 0",
+        poster: "https://cdn.aframe.io/examples/ui/ponyoPoster.jpg",
+        image: "https://cdn.aframe.io/examples/ui/ponyo.jpg",
+    },
+};
+
 const App = () => {
     useEffect(() => {
         initAframeComponents();
@@ -15,20 +33,6 @@ const App = () => {
             <Environment preset="japan" />
 
             <AssetsRegistry>
-                <a-assets>
-                    <img
-                        id="kazetachinu"
-                        src="https://cdn.aframe.io/examples/ui/kazetachinu.jpg"
-                        crossOrigin="anonymous"
-                    />
-                    <img id="ponyo" src="https://cdn.aframe.io/examples/ui/ponyo.jpg" crossOrigin="anonymous" />
-                    <img
-                        id="karigurashi"
-                        src="https://cdn.aframe.io/examples/ui/karigurashi.jpg"
-                        crossOrigin="anonymous"
-                    />
-                </a-assets>
-
                 <a-entity
                     id="background"
                     position="0 0 0"
@@ -57,17 +61,9 @@ const App = () => {
 
                 <UI position="0 1.6 -2.5">
                     <PosterMenu>
-                        <Poster
-                            id="karigurashi"
-                            position="-0.8 0 0"
-                            src="https://cdn.aframe.io/examples/ui/karigurashiPoster.jpg"
-                        />
-                        <Poster
-                            id="kazetachinu"
-                            position="0 0 0"
-                            src="https://cdn.aframe.io/examples/ui/kazetachinuPoster.jpg"
-                        />
-                        <Poster id="ponyo" position="0.8 0 0" src="https://cdn.aframe.io/examples/ui/ponyoPoster.jpg" />
+                        {Object.keys(data).map((key) => (
+                            <Poster {...{ key, id: key, ...data[key] }} />
+                        ))}
                     </PosterMenu>
 
                     <a-entity

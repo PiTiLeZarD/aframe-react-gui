@@ -4,16 +4,22 @@ import { AssetsContext } from "./aframe/AssetsRegistry";
 export type PosterProps = {
     id: string;
     position: string;
-    src: string;
+    poster: string;
+    image: string;
 };
 
 export type PosterComponent = React.FunctionComponent<PosterProps>;
 
-const Poster: PosterComponent = ({ id, position, src }): JSX.Element => {
-    const { registerAsset } = React.useContext(AssetsContext);
+const Poster: PosterComponent = ({ id, position, poster, image }): JSX.Element => {
+    const { assetsLoaded, registerAsset } = React.useContext(AssetsContext);
 
     registerAsset(`${id}Poster`, "img", {
-        src,
+        src: poster,
+        crossOrigin: "anonymous",
+    });
+
+    registerAsset(`${id}`, "img", {
+        src: image,
         crossOrigin: "anonymous",
     });
 
@@ -28,6 +34,8 @@ const Poster: PosterComponent = ({ id, position, src }): JSX.Element => {
         material: "src: #ponyo; shader: flat; transparent: true",
         position: "0 0.495 0.002",
     });
+
+    if (!assetsLoaded([id, `${id}Poster`, "poster", "movieImage"])) return null;
 
     return React.createElement(
         "a-entity",
