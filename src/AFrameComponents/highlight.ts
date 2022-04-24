@@ -1,19 +1,6 @@
-export default highlight = {
-    init: function () {
-        var buttonEls = (this.buttonEls = this.el.querySelectorAll(".menu-button"));
-        var backgroundEl = document.querySelector("#background");
-        this.onClick = this.onClick.bind(this);
-        this.onMouseEnter = this.onMouseEnter.bind(this);
-        this.onMouseLeave = this.onMouseLeave.bind(this);
-        this.reset = this.reset.bind(this);
-        backgroundEl.addEventListener("click", this.reset);
-        for (var i = 0; i < buttonEls.length; ++i) {
-            buttonEls[i].addEventListener("mouseenter", this.onMouseEnter);
-            buttonEls[i].addEventListener("mouseleave", this.onMouseLeave);
-            buttonEls[i].addEventListener("click", this.onClick);
-        }
-    },
+import { ComponentDefinition } from "aframe";
 
+const mixin = {
     onClick: function (evt) {
         evt.target.pause();
         evt.target.setAttribute("material", "color", "#046de7");
@@ -48,3 +35,21 @@ export default highlight = {
         }
     },
 };
+
+const highlight: ComponentDefinition = {
+    init: function () {
+        var buttonEls = (this.buttonEls = this.el.querySelectorAll(".menu-button"));
+        var backgroundEl = document.querySelector("#background");
+        mixin.onClick = mixin.onClick.bind(this);
+        mixin.onMouseEnter = mixin.onMouseEnter.bind(this);
+        mixin.onMouseLeave = mixin.onMouseLeave.bind(this);
+        mixin.reset = mixin.reset.bind(this);
+        backgroundEl.addEventListener("click", mixin.reset);
+        for (var i = 0; i < buttonEls.length; ++i) {
+            buttonEls[i].addEventListener("mouseenter", mixin.onMouseEnter);
+            buttonEls[i].addEventListener("mouseleave", mixin.onMouseLeave);
+            buttonEls[i].addEventListener("click", mixin.onClick);
+        }
+    },
+};
+export default highlight;

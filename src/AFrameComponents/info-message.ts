@@ -1,43 +1,7 @@
-/* global AFRAME */
-export default infoMessage = {
-    schema: {
-        htmlSrc: { type: "selector" },
-        startOpened: { default: false },
-        width: { default: 400 },
-        height: { default: 320 },
-    },
-    init: function () {
-        var sceneEl = this.el.sceneEl;
-        var messageEl = (this.messageEl = document.createElement("div"));
-        var startOpened = this.data.startOpened;
-        this.toggleInfoMessage = this.toggleInfoMessage.bind(this);
+import { ComponentDefinition } from "aframe";
 
-        messageEl.classList.add("a-info-message");
-        messageEl.setAttribute("aframe-injected", "");
-
-        var closeButtonEl = (this.closeButtonEl = document.createElement("button"));
-        closeButtonEl.innerHTML = "X";
-        closeButtonEl.classList.add("a-close-button-info");
-        closeButtonEl.onclick = this.toggleInfoMessage;
-
-        this.createInfoButton(this.toggleInfoMessage);
-
-        this.addStyles();
-        sceneEl.appendChild(messageEl);
-
-        this.messageEl.style.display = startOpened ? "" : "none";
-        this.infoButton.style.display = startOpened ? "none" : "";
-        messageEl.addEventListener("click", function (evt) {
-            evt.stopPropagation();
-        });
-    },
-
-    update: function () {
-        var messageEl = this.messageEl;
-        messageEl.innerHTML = this.data.htmlSrc.data;
-        messageEl.appendChild(this.closeButtonEl);
-    },
-
+const mixin = {
+    infoButton: undefined,
     addStyles: function () {
         var css =
             ".a-info-message{border-radius: 10px; position: absolute; width: " +
@@ -69,18 +33,13 @@ export default infoMessage = {
             ".a-info-message-button:active, .a-info-message-button:hover {background-color: #ef2d5e;}";
         var style = document.createElement("style");
 
-        if (style.styleSheet) {
-            style.styleSheet.cssText = css;
-        } else {
-            style.appendChild(document.createTextNode(css));
-        }
+        style.appendChild(document.createTextNode(css));
 
         document.getElementsByTagName("head")[0].appendChild(style);
     },
-
     toggleInfoMessage: function () {
         var display = this.messageEl.style.display;
-        this.infoButton.style.display = display;
+        mixin.infoButton.style.display = display;
         display = display === "none" ? "" : "none";
         this.messageEl.style.display = display;
         if (display === "none") {
@@ -89,7 +48,6 @@ export default infoMessage = {
             this.el.emit("infomessageopened");
         }
     },
-
     createInfoButton: function (onClick) {
         var infoButton;
         var wrapper;
@@ -97,7 +55,7 @@ export default infoMessage = {
         // Create elements.
         wrapper = document.createElement("div");
         wrapper.classList.add("a-info-message-container");
-        this.infoButton = infoButton = document.createElement("button");
+        mixin.infoButton = infoButton = document.createElement("button");
         infoButton.className = "a-info-message-button";
         infoButton.setAttribute("title", "Information about this experience");
         // Insert elements.
@@ -108,7 +66,48 @@ export default infoMessage = {
         });
         this.el.sceneEl.appendChild(wrapper);
     },
-
     infoMessageButtonDataURI:
         "url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMyIgZGF0YS1uYW1lPSJMYXllciAzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTAiIGhlaWdodD0iNjIiIHZpZXdCb3g9IjAgMCAxNTAgNjIiPjxwYXRoIGQ9Ik0xMzgsMEgxMkExMi4wMzUsMTIuMDM1LDAsMCwwLDAsMTJWNTBBMTIuMDM1LDEyLjAzNSwwLDAsMCwxMiw2MkgxMzhhMTIuMDM1LDEyLjAzNSwwLDAsMCwxMi0xMlYxMkExMi4wMzUsMTIuMDM1LDAsMCwwLDEzOCwwWk0zNi4yMTIsNDYuMDQzSDI5di0zMGg3LjIxMlptMzAuODQzLDBINTkuODY0TDQ5LjIzMiwyNy4zNzVWNDYuMDQzSDQydi0zMGg3LjIzMkw1OS44NDMsMzQuNzExVjE2LjA0M2g3LjIxMlpNOTMuMDcsMjEuNjI3SDgwLjIzNHY2LjlIOTEuOXY1LjU2M0g4MC4yMzRWNDYuMDQzSDczdi0zMEg5My4wN1pNMTIzLjQsMzEuNjY1YTE3LjgsMTcuOCwwLDAsMS0xLjYzNyw3LjgxMiwxMi4xMDgsMTIuMTA4LDAsMCwxLTQuNjUyLDUuMjMyLDEyLjk1MSwxMi45NTEsMCwwLDEtNi44NywxLjgzNCwxMy4xMzgsMTMuMTM4LDAsMCwxLTYuODM4LTEuNzcyLDEyLjA4MSwxMi4wODEsMCwwLDEtNC42NTItNS4wNjZBMTcuMjgxLDE3LjI4MSwwLDAsMSw5NywzMi4xNDF2LTEuN2ExNy44NTksMTcuODU5LDAsMCwxLDEuNjI3LTcuODIyLDEyLjA2NywxMi4wNjcsMCwwLDEsNC42NjItNS4yMzMsMTMuOCwxMy44LDAsMCwxLDEzLjc0OS0uMDIxLDEyLjI4OSwxMi4yODksMCwwLDEsNC42NzMsNS4xOTEsMTcuMzYyLDE3LjM2MiwwLDAsMSwxLjY4OSw3LjcxOVoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNMTEwLjIsMjEuMjQxcS01LjQ3MSwwLTUuNzgyLDguMjA2bC0uMDIsMi4yMThhMTMuMDQ3LDEzLjA0NywwLDAsMCwxLjQ3MSw2LjgxNyw0LjgxMSw0LjgxMSwwLDAsMCw0LjM3MiwyLjM4Myw0Ljc1Miw0Ljc1MiwwLDAsMCw0LjI0OC0yLjM0MUExMi42OTEsMTIuNjkxLDAsMCwwLDExNiwzMS43ODlWMzAuNHEwLTQuNS0xLjUtNi44MjhBNC44MjEsNC44MjEsMCwwLDAsMTEwLjIsMjEuMjQxWiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==)",
 };
+
+const infoMessage: ComponentDefinition = {
+    schema: {
+        htmlSrc: { type: "selector" },
+        startOpened: { default: false },
+        width: { default: 400 },
+        height: { default: 320 },
+    },
+    init: function () {
+        var sceneEl = this.el.sceneEl;
+        var messageEl = (this.messageEl = document.createElement("div"));
+        var startOpened = this.data.startOpened;
+        mixin.toggleInfoMessage = mixin.toggleInfoMessage.bind(this);
+
+        messageEl.classList.add("a-info-message");
+        messageEl.setAttribute("aframe-injected", "");
+
+        var closeButtonEl = (this.closeButtonEl = document.createElement("button"));
+        closeButtonEl.innerHTML = "X";
+        closeButtonEl.classList.add("a-close-button-info");
+        closeButtonEl.onclick = mixin.toggleInfoMessage;
+
+        mixin.createInfoButton(mixin.toggleInfoMessage);
+
+        mixin.addStyles();
+        sceneEl.appendChild(messageEl);
+
+        this.messageEl.style.display = startOpened ? "" : "none";
+        mixin.infoButton.style.display = startOpened ? "none" : "";
+        messageEl.addEventListener("click", function (evt) {
+            evt.stopPropagation();
+        });
+    },
+
+    update: function () {
+        var messageEl = this.messageEl;
+        messageEl.innerHTML = this.data.htmlSrc.data;
+        messageEl.appendChild(this.closeButtonEl);
+    },
+};
+
+export default infoMessage;

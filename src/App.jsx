@@ -1,11 +1,14 @@
-/* global AFRAME */
-import initAframeComponents from "./AFrameComponents";
+import "aframe";
+import "aframe-environment-component";
 
 import * as message from "./message.html";
-
-initAframeComponents(AFRAME);
+import initAframeComponents from "./AFrameComponents";
+import { useEffect } from "react";
 
 const App = () => {
+    useEffect(() => {
+        initAframeComponents();
+    });
     return (
         <a-scene
             background="color: #212"
@@ -14,7 +17,6 @@ const App = () => {
             infoMessage="htmlSrc: #messageText"
         >
             <a-entity environment="preset: forest"></a-entity>
-
             <a-assets>
                 <a-asset-item id="messageText" src={message}></a-asset-item>
                 <img id="kazetachinu" src="https://cdn.aframe.io/examples/ui/kazetachinu.jpg" crossOrigin="anonymous" />
@@ -137,4 +139,15 @@ const App = () => {
     );
 };
 
+/**
+ * 
+import { Scene, Panel, FlexContainer, Text } from "./lib";
+        <Scene>
+            <Panel>
+                <FlexContainer>
+                    <Text>Test</Text>
+                </FlexContainer>
+            </Panel>
+        </Scene>
+ */
 export default App;
