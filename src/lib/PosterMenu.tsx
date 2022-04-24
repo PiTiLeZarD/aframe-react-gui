@@ -8,12 +8,14 @@ export type PosterMenuComponent = React.FunctionComponent<React.PropsWithChildre
 const PosterMenu: PosterMenuComponent = ({ children }): JSX.Element => {
     const { assetsLoaded, registerAsset } = React.useContext(AssetsContext);
 
-    registerAsset("frame", "a-mixin", {
-        geometry: "primitive: plane; width: 0.5783552; height: 0.8192",
-        material: "color: white; shader: flat",
-        animation__scale: "property: scale; to: 1.2 1.2 1.2; dur: 200; startEvents: mouseenter",
-        animation__scale_reverse: "property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave",
-    });
+    React.useEffect(() => {
+        registerAsset("frame", "a-mixin", {
+            geometry: "primitive: plane; width: 0.5783552; height: 0.8192",
+            material: "color: white; shader: flat",
+            animation__scale: "property: scale; to: 1.2 1.2 1.2; dur: 200; startEvents: mouseenter",
+            animation__scale_reverse: "property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave",
+        });
+    }, [assetsLoaded()]);
 
     if (!assetsLoaded(["frame"])) return null;
 

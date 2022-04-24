@@ -9,7 +9,7 @@ type AssetComponentType = string;
 type AssetComponentDefinition = Object;
 
 const defaultAssetsContext: {
-    assetsLoaded: (assets: AssetComponentId[]) => boolean;
+    assetsLoaded: (assets?: AssetComponentId[]) => boolean | AssetComponentId[];
     registerAsset: (id: AssetComponentId, type: AssetComponentType, def: AssetComponentDefinition) => void;
 } = {
     assetsLoaded: () => true,
@@ -23,6 +23,7 @@ const AssetsRegistry: AssetsRegistryComponent = ({ children }): JSX.Element => {
     }>({});
 
     const assetsLoaded = (assetsRequired) => {
+        if (!assetsRequired) return Object.keys(assets);
         return assetsRequired.reduce((prev, asset) => prev && Object.keys(assets).includes(asset), true);
     };
     const registerAsset = (id, type, def) => {

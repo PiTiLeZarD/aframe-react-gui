@@ -13,27 +13,29 @@ export type PosterComponent = React.FunctionComponent<PosterProps>;
 const Poster: PosterComponent = ({ id, position, poster, image }): JSX.Element => {
     const { assetsLoaded, registerAsset } = React.useContext(AssetsContext);
 
-    registerAsset(`${id}Poster`, "img", {
-        src: poster,
-        crossOrigin: "anonymous",
-    });
+    React.useEffect(() => {
+        registerAsset(`${id}Poster`, "img", {
+            src: poster,
+            crossOrigin: "anonymous",
+        });
 
-    registerAsset(`${id}`, "img", {
-        src: image,
-        crossOrigin: "anonymous",
-    });
+        registerAsset(`${id}`, "img", {
+            src: image,
+            crossOrigin: "anonymous",
+        });
 
-    registerAsset("poster", "a-mixin", {
-        geometry: "primitive: plane; width: 0.544768; height: 0.786432",
-        material: "color: white; shader: flat",
-        position: "0 0 0.005",
-    });
+        registerAsset("poster", "a-mixin", {
+            geometry: "primitive: plane; width: 0.544768; height: 0.786432",
+            material: "color: white; shader: flat",
+            position: "0 0 0.005",
+        });
 
-    registerAsset("movieImage", "a-mixin", {
-        geometry: "primitive: plane; width: 1.5; height: 0.81",
-        material: "src: #ponyo; shader: flat; transparent: true",
-        position: "0 0.495 0.002",
-    });
+        registerAsset("movieImage", "a-mixin", {
+            geometry: "primitive: plane; width: 1.5; height: 0.81",
+            material: "src: #ponyo; shader: flat; transparent: true",
+            position: "0 0.495 0.002",
+        });
+    }, [assetsLoaded()]);
 
     if (!assetsLoaded([id, `${id}Poster`, "poster", "movieImage"])) return null;
 
