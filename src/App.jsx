@@ -1,22 +1,18 @@
 import "aframe";
-import "aframe-environment-component";
 
 import * as message from "./message.html";
 import initAframeComponents from "./AFrameComponents";
 import { useEffect } from "react";
+import { Environment, Laser, Scene } from "./lib";
 
 const App = () => {
     useEffect(() => {
         initAframeComponents();
-    });
+    }, []);
     return (
-        <a-scene
-            background="color: #212"
-            cursor="rayOrigin: mouse; fuse: false"
-            raycaster="objects: .raycastable"
-            infoMessage="htmlSrc: #messageText"
-        >
-            <a-entity environment="preset: forest"></a-entity>
+        <Scene background="color: #212" cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .raycastable">
+            <Environment preset="forest" />
+
             <a-assets>
                 <a-asset-item id="messageText" src={message}></a-asset-item>
                 <img id="kazetachinu" src="https://cdn.aframe.io/examples/ui/kazetachinu.jpg" crossOrigin="anonymous" />
@@ -77,13 +73,8 @@ const App = () => {
                 ></a-entity>
             </a-entity>
 
-            <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: .raycastable"></a-entity>
-            <a-entity
-                id="rightHand"
-                laser-controls="hand: right"
-                raycaster="objects: .raycastable"
-                line="color: #118A7E"
-            ></a-entity>
+            <Laser hand="left" target="raycastable" />
+            <Laser hand="right" target="raycastable" colour="#118A7E" />
 
             <a-entity id="ui" position="0 1.6 -2.5">
                 <a-entity id="menu" highlight>
@@ -135,7 +126,7 @@ const App = () => {
                     ></a-entity>
                 </a-entity>
             </a-entity>
-        </a-scene>
+        </Scene>
     );
 };
 
