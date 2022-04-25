@@ -6,19 +6,20 @@ export type PosterProps = {
     position: string;
     poster: string;
     image: string;
+    selected?: boolean;
     onClick?: () => {};
 };
 
 export type PosterComponent = React.FunctionComponent<PosterProps>;
 
-const Poster: PosterComponent = ({ id, position, onClick }): JSX.Element =>
+const Poster: PosterComponent = ({ id, position, selected = false, onClick }): JSX.Element =>
     React.createElement(
         "a-entity",
         {
             id: `${id}Button`,
             position,
             mixin: "frame",
-            class: "raycastable menu-button",
+            class: `raycastable menu-button ${selected ? "selected" : ""}`,
             highlight: true,
             onClick,
         },
@@ -52,15 +53,6 @@ export default withAssets([
             geometry: "primitive: plane; width: 0.544768; height: 0.786432",
             material: "color: white; shader: flat",
             position: "0 0 0.005",
-        },
-    ],
-    [
-        "movieImage",
-        "a-mixin",
-        {
-            geometry: "primitive: plane; width: 1.5; height: 0.81",
-            material: "src: #ponyo; shader: flat; transparent: true",
-            position: "0 0.495 0.002",
         },
     ],
 ])(Poster);

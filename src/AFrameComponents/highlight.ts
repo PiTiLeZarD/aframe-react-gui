@@ -6,11 +6,15 @@ const mixin = {
         mixin.resetAll(evt.target);
 
         if (!previouslyClicked) {
-            this.el.addState("clicked");
-            evt.target.pause();
-            evt.target.setAttribute("material", "color", "#046de7");
-            evt.target.object3D.scale.set(1.2, 1.2, 1.2);
+            mixin.select(evt.target);
         }
+    },
+
+    select: (target) => {
+        target.addState("clicked");
+        target.pause();
+        target.setAttribute("material", "color", "#046de7");
+        target.object3D.scale.set(1.2, 1.2, 1.2);
     },
 
     onMouseEnter: function (evt) {
@@ -24,12 +28,17 @@ const mixin = {
         evt.target.setAttribute("material", "color", "white");
     },
 
-    resetAll: function (target) {
+    resetAll: (target) => {
         Array.from(target.parentNode.children).forEach((elt: any) => {
-            elt.removeState("clicked");
-            elt.play();
-            elt.emit("mouseleave");
+            mixin.reset(elt);
         });
+    },
+
+    reset: (target) => {
+        target.removeState("clicked");
+        target.play();
+        target.emit("mouseleave");
+        target.setAttribute("material", "color", "white");
     },
 };
 
@@ -38,6 +47,11 @@ const highlight: ComponentDefinition = {
         this.el.addEventListener("mouseenter", mixin.onMouseEnter.bind(this));
         this.el.addEventListener("mouseleave", mixin.onMouseLeave.bind(this));
         this.el.addEventListener("click", mixin.onClick.bind(this));
+        if (Array.from(this.el.classList).includes("selected")) {
+            mixin.select(this.el);
+        } else {
+            mixin.reset(this.el);
+        }
     },
 };
 export default highlight;

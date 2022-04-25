@@ -1,33 +1,33 @@
 import React from "react";
+import { withAssets } from "./aframe/AssetsRegistry";
 
 export type InfoPanelProps = {
-    display: boolean;
     title: string;
     description: string;
-    imgAssetId: string;
+    id: string;
 };
 
 export type InfoPanelComponent = React.FunctionComponent<InfoPanelProps>;
 
-const InfoPanel: InfoPanelComponent = ({ display = true, title, description, imgAssetId }): JSX.Element => {
-    if (!display) return null;
+const InfoPanel: InfoPanelComponent = ({ id, title, description, ...otherProps }): JSX.Element => {
+    if (!id) return null;
 
     return React.createElement(
         "a-entity",
         {
             id: "infoPanel",
             position: "0 0 0.5",
-            "info-panel": true,
-            scale: "0.001 0.001 0.001",
+            inModal: true,
+            scale: "1 1 1",
             geometry: "primitive: plane; width: 1.5; height: 1.8",
             material: "color: #333333; shader: flat; transparent: false",
             class: "raycastable",
         },
         <>
             {React.createElement("a-entity", {
-                id: `${imgAssetId}MovieImage`,
+                id: `${id}MovieImage`,
                 mixin: "movieImage",
-                material: `src: #${imgAssetId}`,
+                material: `src: #${id}`,
             })}
             {React.createElement("a-entity", {
                 id: "movieTitle",
@@ -43,4 +43,14 @@ const InfoPanel: InfoPanelComponent = ({ display = true, title, description, img
     );
 };
 
-export default InfoPanel;
+export default withAssets([
+    ({ id }: Partial<InfoPanelProps>) => [
+        "movieImage",
+        "a-mixin",
+        {
+            geometry: "primitive: plane; width: 1.5; height: 0.81",
+            material: `src: #${id}; shader: flat; transparent: true`,
+            position: "0 0.495 0.002",
+        },
+    ],
+])(InfoPanel);

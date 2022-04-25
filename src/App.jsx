@@ -4,6 +4,7 @@ import initAframeComponents from "./AFrameComponents";
 import { useEffect, useState } from "react";
 import { Environment, Laser, PosterMenu, Scene, UI, Poster, InfoPanel } from "./lib";
 import AssetsRegistry from "./lib/aframe/AssetsRegistry";
+import ModalLayer from "./lib/ModalLayer";
 
 const data = {
     karigurashi: {
@@ -46,45 +47,20 @@ const App = () => {
             <Environment preset="japan" />
             <Laser hand="left" target="raycastable" />
             <Laser hand="right" target="raycastable" colour="#118A7E" />
+            <ModalLayer id="background" open={selectedMovie !== null} onClick={() => setSelectedMovie(null)} />
 
             <AssetsRegistry>
-                <a-entity
-                    id="background"
-                    position="0 0 0"
-                    geometry="primitive: sphere; radius: 2.0"
-                    material="color: red; side: back; shader: flat"
-                    scale="0.001 0.001 0.001"
-                    visible="false"
-                    class="raycastable"
-                ></a-entity>
-
-                <a-entity
-                    position="0 1.6 0"
-                    camera
-                    look-controls="magicWindowTrackingEnabled: false; touchEnabled: false; mouseEnabled: false"
-                >
-                    <a-entity
-                        id="fadeBackground"
-                        geometry="primitive: sphere; radius: 2.5"
-                        material="color: black; side: back; shader: flat; transparent: true; opacity: 0.6"
-                        visible="false"
-                    ></a-entity>
-                </a-entity>
-
                 <UI position="0 1.6 -2.5">
+                    <InfoPanel id={selectedMovie} {...(selectedMovie != null ? data[selectedMovie] : {})} />
                     <PosterMenu>
                         {Object.keys(data).map((key) => (
-                            <Poster {...{ key, id: key, ...data[key] }} onClick={handlePosterClick(key)} />
+                            <Poster
+                                {...{ key, id: key, ...data[key] }}
+                                selected={key == selectedMovie}
+                                onClick={handlePosterClick(key)}
+                            />
                         ))}
                     </PosterMenu>
-
-                    {selectedMovie !== null && (
-                        <InfoPanel
-                            title={data[selectedMovie].title}
-                            description={data[selectedMovie].description}
-                            imgAssetId={selectedMovie}
-                        />
-                    )}
                 </UI>
             </AssetsRegistry>
         </Scene>
