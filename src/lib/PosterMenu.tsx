@@ -6,7 +6,7 @@ export type PosterMenuProps = {};
 export type PosterMenuComponent = React.FunctionComponent<React.PropsWithChildren<PosterMenuProps>>;
 
 const PosterMenu: PosterMenuComponent = ({ children }): JSX.Element =>
-    React.createElement("a-entity", { id: "menu", highlight: true }, children);
+    React.createElement("a-entity", { id: "menu" }, children);
 
 export default withAssets([
     [

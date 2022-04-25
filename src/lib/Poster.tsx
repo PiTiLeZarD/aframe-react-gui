@@ -6,14 +6,22 @@ export type PosterProps = {
     position: string;
     poster: string;
     image: string;
+    onClick?: () => {};
 };
 
 export type PosterComponent = React.FunctionComponent<PosterProps>;
 
-const Poster: PosterComponent = ({ id, position }): JSX.Element =>
+const Poster: PosterComponent = ({ id, position, onClick }): JSX.Element =>
     React.createElement(
         "a-entity",
-        { id: `${id}Button`, position, mixin: "frame", class: "raycastable menu-button" },
+        {
+            id: `${id}Button`,
+            position,
+            mixin: "frame",
+            class: "raycastable menu-button",
+            highlight: true,
+            onClick,
+        },
         React.createElement("a-entity", {
             material: `src: #${id}Poster;`,
             mixin: "poster",

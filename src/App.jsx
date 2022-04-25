@@ -28,6 +28,9 @@ const App = () => {
     useEffect(() => {
         initAframeComponents();
     }, []);
+
+    const handlePosterClick = (key) => (ev) => console.log(`${key} Selected`);
+
     return (
         <Scene background="color: #212" cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .raycastable">
             <Environment preset="japan" />
@@ -62,7 +65,7 @@ const App = () => {
                 <UI position="0 1.6 -2.5">
                     <PosterMenu>
                         {Object.keys(data).map((key) => (
-                            <Poster {...{ key, id: key, ...data[key] }} />
+                            <Poster {...{ key, id: key, ...data[key] }} onClick={handlePosterClick(key)} />
                         ))}
                     </PosterMenu>
 
