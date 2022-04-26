@@ -1,5 +1,6 @@
 import React from "react";
 import { withAssets } from "./aframe/AssetsRegistry";
+import { ModalContext } from "./ModalLayer";
 
 export type InfoPanelProps = {
     title: string;
@@ -10,6 +11,12 @@ export type InfoPanelProps = {
 export type InfoPanelComponent = React.FunctionComponent<InfoPanelProps>;
 
 const InfoPanel: InfoPanelComponent = ({ id, title, description, ...otherProps }): JSX.Element => {
+    const { setOpen } = React.useContext(ModalContext);
+
+    React.useEffect(() => {
+        setOpen(!!id);
+    }, [id]);
+
     if (!id) return null;
 
     return React.createElement(

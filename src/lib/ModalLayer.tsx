@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
-export type ModalLayerProps = {
-    id: string;
-    open: boolean;
-    onClick: () => {};
-};
+export type ModalLayerProps = {};
 
 export type ModalLayerComponent = React.FunctionComponent<React.PropsWithChildren<ModalLayerProps>>;
 
-const ModalLayer: ModalLayerComponent = ({ id, open, children, onClick }): JSX.Element => {
-    if (!open) return null;
+const defaultContext: { open: boolean; setOpen: (open: boolean) => void } = {
+    open: false,
+    setOpen: () => {},
+};
+export const ModalContext = React.createContext(defaultContext);
+
+const ModalLayer: ModalLayerComponent = ({ children }): JSX.Element => {
+    const [open, setOpen] = useState<boolean>(false);
+
+    const id = "modal";
     return (
-        <>
+        <ModalContext.Provider value={{ open, setOpen }}>
             {React.createElement("a-entity", {
                 id,
                 position: "0 0 0",
@@ -20,7 +24,7 @@ const ModalLayer: ModalLayerComponent = ({ id, open, children, onClick }): JSX.E
                 scale: open ? "1 1 1" : "0.001 0.001 0.001",
                 visible: "false",
                 class: "raycastable",
-                onClick,
+                onClick: () => setOpen(false),
             })}
             {React.createElement(
                 "a-entity",
@@ -38,7 +42,7 @@ const ModalLayer: ModalLayerComponent = ({ id, open, children, onClick }): JSX.E
                 })
             )}
             {children}
-        </>
+        </ModalContext.Provider>
     );
 };
 
