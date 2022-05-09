@@ -8,6 +8,8 @@ So I'll try to update this page as I go.
 
 # Where is this at?
 
+You can see a [demo here](https://pitilezard.github.io/aframe-react-gui/), but here is my rough todolist
+
 -   ✅ Take the Responsive UI example and make it work locally on its own
 -   ✅ Turn this into a modern ESM based app
 -   ✅ Reactify some parts of it in a way that makes sense.

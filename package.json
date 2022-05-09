@@ -4,7 +4,7 @@
         "dev": "parcel ./src/index.html",
         "clean": "rm -Rf .parcel-cache dist",
         "prebuild": "yarn clean",
-        "build": "parcel build ./src/index.html",
+        "build": "parcel build --public-url /aframe-react-gui ./src/index.html",
         "predeploy": "yarn build",
         "deploy": "gh-pages -b ghpages -d dist"
     },
