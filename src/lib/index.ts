@@ -8,3 +8,14 @@ export { default as Text } from "./Text";
 export { default as PosterMenu } from "./PosterMenu";
 export { default as Poster } from "./Poster";
 export { default as InfoPanel } from "./InfoPanel";
+
+import { modalAFComponent, inModalAFComponent } from "./ModalLayer";
+import { highlightAFComponent } from "./Poster";
+import { infoPanelAFComponent } from "./InfoPanel";
+
+export const aframeComponents = {
+    modal: modalAFComponent,
+    inModal: inModalAFComponent,
+    highlight: highlightAFComponent,
+    infoPanel: infoPanelAFComponent,
+};

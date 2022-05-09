@@ -1,15 +1,14 @@
 import "aframe";
 
-import initAframeComponents from "./AFrameComponents";
 import { useEffect } from "react";
-import { Laser, Scene } from "./lib";
+import { aframeComponents, initComponents, Laser, Scene } from "./lib";
 import AssetsRegistry from "./lib/aframe/AssetsRegistry";
 import ModalLayer from "./lib/ModalLayer";
 import JapaneseMoviesScene from "./JapaneseMoviesScene";
 
 const App = () => {
     useEffect(() => {
-        initAframeComponents();
+        initComponents(aframeComponents);
     }, []);
 
     return (

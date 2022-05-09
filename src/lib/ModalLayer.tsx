@@ -1,4 +1,21 @@
 import React, { useState } from "react";
+import { ComponentDefinition } from "aframe";
+
+export const modalAFComponent: ComponentDefinition = {
+    dependencies: ["material"],
+    init: function () {
+        this.el.sceneEl.renderer.sortObjects = true;
+        this.el.object3D.renderOrder = 9;
+        this.el.components.material.material.depthTest = false;
+    },
+};
+
+export const inModalAFComponent: ComponentDefinition = {
+    init: function () {
+        this.el.object3D.renderOrder = 9999999;
+        this.el.object3D.depthTest = false;
+    },
+};
 
 export type ModalLayerProps = {};
 
@@ -35,7 +52,7 @@ const ModalLayer: ModalLayerComponent = ({ children }): JSX.Element => {
                 },
                 React.createElement("a-entity", {
                     id: `${id}Fade`,
-                    overlay: true,
+                    modal: true,
                     geometry: "primitive: sphere; radius: 2.5",
                     material: "color: black; side: back; shader: flat; transparent: true; opacity: 0.6",
                     visible: open ? "true" : "false",
