@@ -1,5 +1,5 @@
 /** https://github.com/supermedium/aframe-environment-component */
-import "aframe-environment-component";
+import "aframe-environment-component-v2";
 import React from "react";
 
 export type EnvironmentProps = {

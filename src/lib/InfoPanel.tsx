@@ -61,7 +61,7 @@ const InfoPanel: InfoPanelComponent = ({ id, title, description, ...otherProps }
         {
             id: "infoPanel",
             position: "0 0 0.5",
-            inModal: true,
+            inmodal: true,
             scale: "1 1 1",
             geometry: "primitive: plane; width: 1.5; height: 1.8",
             material: "color: #333333; shader: flat; transparent: false",

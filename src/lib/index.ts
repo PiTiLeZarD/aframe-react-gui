@@ -15,7 +15,7 @@ import { infoPanelAFComponent } from "./InfoPanel";
 
 export const aframeComponents = {
     modal: modalAFComponent,
-    inModal: inModalAFComponent,
+    inmodal: inModalAFComponent,
     highlight: highlightAFComponent,
-    infoPanel: infoPanelAFComponent,
+    infopanel: infoPanelAFComponent,
 };
